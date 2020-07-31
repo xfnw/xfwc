@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BOOPTMP=$(mktemp)
+
+for fn in $(ls src); do
+NEWF=${fn%??}html
+TITLE=$(echo ${fn%???} | sed 's/_/ /g' | sed -e 's/[]$.*[\^]/\\&/g')
+echo "rendering $NEWF..."
+
+cmark <src/$fn >$BOOPTMP
+cp template/page.html $NEWF
+
+sed "/<body>/r $BOOPTMP" template/page.html > $NEWF
+
+sed -i "s/XFSSTITLE/$TITLE/" $NEWF
+
+done
+
+

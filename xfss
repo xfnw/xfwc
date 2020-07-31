@@ -7,7 +7,7 @@ NEWF=${fn%??}html
 TITLE=$(echo ${fn%???} | sed 's/_/ /g' | sed -e 's/[]$.*[\^]/\\&/g')
 echo "rendering $NEWF..."
 
-cmark --smart --safe <src/$fn >$BOOPTMP
+pandoc --from gfm <src/$fn >$BOOPTMP
 cp template/page.html $NEWF
 
 sed "/<body>/r $BOOPTMP" template/page.html > $NEWF

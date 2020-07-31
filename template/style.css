@@ -1,1 +1,85 @@
-../../lickhack-css/lickhack.css
+/* ~lickthecheese's lickhack css! */
+/* gpl affero v3 */
+body {
+background: black;
+font-family: monospace;
+color: #aea;
+}
+
+div {
+border: 1px solid #aea;
+border-left: 6px solid #7b7;
+padding: 10px;
+border-radius: 0px 15px 15px 0px;
+margin-top: 5px;
+}
+
+html {
+width: 700px;
+margin: 0 auto;
+}
+
+a {
+text-decoration: none;
+color: #aee;
+}
+
+a:hover {
+text-decoration: underline;
+}
+
+
+code, kbd, pre {
+background: #111;
+color: #aea;
+}
+
+pre {
+padding: 10px;
+border-radius: 0px 10px 10px 0px;
+border: 1px solid #9d9;
+border-left: 6px solid #6a6;
+}
+
+th {
+	color: black;
+	background-color: #aea;
+}
+
+
+th, td {
+	border: 1px solid #9d9;
+	padding: 5px;
+}
+
+table {
+	border-collapse: collapse;
+	margin: 10px;
+}
+
+@media screen and (max-width:700px) {
+html {
+width: 100%;
+}
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+	@keyframes flash {
+		50% { opacity: 0; }
+	}
+	@keyframes reveal {
+		from { width: 1em; } /* Width of ::before */
+		  to { width: 100%; }
+	}
+	h1 {
+		overflow: hidden;
+		white-space: nowrap;
+		animation: reveal 8s linear;
+		text-overflow: "\2588";
+	}
+	h1::after {
+		content: "\2588";
+		animation: flash 1s step-end infinite;
+	}
+}

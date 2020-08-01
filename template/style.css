@@ -6,10 +6,13 @@ font-family: monospace;
 color: #aea;
 }
 
+div, pre, summary {
+	padding: 10px;
+}
+
 div {
 border: 1px solid #aea;
 border-left: 6px solid #7b7;
-padding: 10px;
 border-radius: 0px 15px 15px 0px;
 margin-top: 5px;
 }
@@ -28,31 +31,34 @@ a:hover {
 text-decoration: underline;
 }
 
-
 code, kbd, pre {
 background: #111;
 color: #aea;
 }
 
 pre {
-padding: 10px;
 border-radius: 0px 10px 10px 0px;
 border: 1px solid #9d9;
 border-left: 6px solid #6a6;
 }
 
-th {
+summary {
+	cursor: pointer;
+}
+
+th, summary {
 	color: black;
 	background-color: #aea;
 }
 
-
-th, td {
+th, td, details {
 	border: 1px solid #9d9;
+}
+th, td {
 	padding: 5px;
 }
 
-table {
+table, details *:not(summary) {
 	border-collapse: collapse;
 	margin: 10px;
 }
@@ -62,7 +68,6 @@ html {
 width: 100%;
 }
 }
-
 
 @media (prefers-reduced-motion: no-preference) {
 	@keyframes flash {
@@ -83,3 +88,4 @@ width: 100%;
 		animation: flash 1s step-end infinite;
 	}
 }
+

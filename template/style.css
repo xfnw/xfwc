@@ -1,6 +1,6 @@
 /* ~lickthecheese's lickhack css! */
 /* gpl affero v3 */
-body {
+body, hr {
 background: black;
 font-family: monospace;
 color: #aea;

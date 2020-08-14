@@ -10,6 +10,10 @@ div, pre, summary {
 	padding: 10px;
 }
 
+img.comic {
+	width:100%
+}
+
 div {
 border: 1px solid #aea;
 border-left: 6px solid #7b7;

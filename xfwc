@@ -1,0 +1,34 @@
+#!/bin/bash
+
+BOOPTMP=$(mktemp)
+
+TOTAL=$(ls src | wc -w)
+
+for fn in $(ls src); do
+NUM=$(echo "${fn%???}" | sed 's/[^0-9]*//g')
+NEWF=$NUM.html
+TITLE=$(echo ${fn%????} | sed 's/_/ /g; s/[0-9]*//g' | sed -e 's/[]$.*[\^]/\\&/g')
+echo "rendering $NEWF..."
+
+echo "<img class='comic' src='src/$fn'/>" > $BOOPTMP
+cp template/page.html $NEWF
+
+sed "/COMIC -->/r $BOOPTMP" template/page.html > $NEWF
+
+sed -i "s/XFSSTITLE/$TITLE/g" $NEWF
+
+sed -i "s/RANDOM/"$(( ( RANDOM % TOTAL ) + 1 ))"/" $NEWF
+
+
+sed -i "s/LAST/"$TOTAL"/" $NEWF
+
+
+[ "$NUM" = "1" ] || sed -i "s/PRE/"$(( NUM - 1 ))"/" $NEWF
+
+[ "$NUM" = "$TOTAL" ] || sed -i "s/NEXT/"$(( NUM + 1 ))"/" $NEWF
+
+sed -i 's/PRE/#/; s/NEXT/#/' $NEWF
+
+done
+
+

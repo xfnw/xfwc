@@ -4,6 +4,10 @@ BOOPTMP=$(mktemp)
 
 TOTAL=$(ls src | wc -w)
 
+rm index.html
+
+ln -s $TOTAL.html index.html
+
 for fn in $(ls src); do
 NUM=$(echo "${fn%???}" | sed 's/[^0-9]*//g')
 NEWF=$NUM.html

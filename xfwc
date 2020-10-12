@@ -1,5 +1,18 @@
 #!/bin/bash
 
+ABSURL="https://xfnw.ttm.sh/xfwc"
+
+cat <<EOF > feed.rss
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<channel>
+<title>xfwc</title>
+<link>$ABSURL/</link>
+<description>xfwc</description>
+
+EOF
+
 BOOPTMP=$(mktemp)
 
 TOTAL=$(ls src | wc -w)
@@ -8,11 +21,19 @@ rm index.html
 
 ln -s $TOTAL.html index.html
 
-for fn in $(ls src); do
-NUM=$(echo "${fn%???}" | sed 's/[^0-9]*//g')
+NUM=$TOTAL
+for fn in $(ls -t src); do
 NEWF=$NUM.html
-TITLE=$(echo ${fn%????} | sed 's/_/ /g; s/[0-9]*//g' | sed -e 's/[]$.*[\^]/\\&/g')
+TITLE=$(echo ${fn%????} | sed 's/_/ /g' | sed -e 's/[]$.*[\^]/\\&/g')
 echo "rendering $NEWF..."
+
+cat <<EOF >> feed.rss
+<item>
+<title>$TITLE</title>
+<link>$ABSURL/$NEWF</link>
+<description>image #$NUM</description>
+</item>
+EOF
 
 echo "<img class='comic' alt='$TITLE' title='$TITLE' src='src/$fn'/>" > $BOOPTMP
 cp template/page.html $NEWF
@@ -33,6 +54,13 @@ sed -i "s/LAST/"$TOTAL"/" $NEWF
 
 sed -i 's/PRE/#/; s/NEXT/#/' $NEWF
 
+NUM=$(( NUM - 1 ))
+
 done
+
+cat <<EOF >> feed.rss
+</channel>
+</rss>
+EOF
 
 

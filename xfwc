@@ -21,7 +21,7 @@ rm index.html
 
 ln -s $TOTAL.html index.html
 
-NUM=$TOTAL
+NUM=$(( TOTAL ))
 for fn in $(ls -t src); do
 NEWF=$NUM.html
 TITLE=$(echo ${fn%????} | sed 's/_/ /g' | sed -e 's/[]$.*[\^]/\\&/g')
@@ -45,7 +45,7 @@ sed -i "s/XFSSTITLE/$TITLE/g" $NEWF
 sed -i "s/RANDOM/"$(( ( RANDOM % TOTAL ) + 1 ))"/" $NEWF
 
 
-sed -i "s/LAST/"$TOTAL"/" $NEWF
+sed -i "s/LAST/$TOTAL/" $NEWF
 
 
 [ "$NUM" = "1" ] || sed -i "s/PRE/"$(( NUM - 1 ))"/" $NEWF

@@ -21,6 +21,7 @@ rm index.html
 
 ln -s $TOTAL.html index.html
 
+TOTAL=$(( TOTAL ))
 NUM=$(( TOTAL ))
 for fn in $(ls -t src); do
 NEWF=$NUM.html

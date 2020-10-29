@@ -13,7 +13,6 @@ cat <<EOF > feed.rss
 
 EOF
 
-BOOPTMP=$(mktemp)
 
 TOTAL=$(ls src | wc -w)
 
@@ -28,32 +27,20 @@ NEWF=$NUM.html
 TITLE=$(echo ${fn%????} | sed 's/_/ /g' | sed -e 's/[]$.*[\^]/\\&/g')
 echo "rendering $NEWF..."
 
-cat <<EOF >> feed.rss
+echo "
 <item>
 <title>$TITLE</title>
 <link>$ABSURL/$NEWF</link>
 <description>image #$NUM</description>
 </item>
-EOF
+" >> feed.rss
 
-echo "<img class='comic' alt='$TITLE' title='$TITLE' src='src/$fn'/>" > $BOOPTMP
-cp template/page.html $NEWF
+sed "s/<!-- COMIC -->/<img class='comic' alt='$TITLE' title='$TITLE' src='src\/$fn'\/>/; s/XFSSTITLE/$TITLE/g; s/RANDOM/"$(( ( RANDOM % TOTAL ) + 1 ))"/; s/LAST/$TOTAL/" template/page.html > $NEWF
 
-sed "/COMIC -->/r $BOOPTMP" template/page.html > $NEWF
+[ "$NUM" = "1" ] || sed -i "s/#PRE/"$(( NUM - 1 ))"/" $NEWF
 
-sed -i "s/XFSSTITLE/$TITLE/g" $NEWF
+[ "$NUM" = "$TOTAL" ] || sed -i "s/#NEXT/"$(( NUM + 1 ))"/" $NEWF
 
-sed -i "s/RANDOM/"$(( ( RANDOM % TOTAL ) + 1 ))"/" $NEWF
-
-
-sed -i "s/LAST/$TOTAL/" $NEWF
-
-
-[ "$NUM" = "1" ] || sed -i "s/PRE/"$(( NUM - 1 ))"/" $NEWF
-
-[ "$NUM" = "$TOTAL" ] || sed -i "s/NEXT/"$(( NUM + 1 ))"/" $NEWF
-
-sed -i 's/PRE/#/; s/NEXT/#/' $NEWF
 
 NUM=$(( NUM - 1 ))
 

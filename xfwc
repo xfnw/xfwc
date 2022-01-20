@@ -2,7 +2,7 @@
 
 ABSURL="https://xfnw.ttm.sh/xfwc"
 
-cat <<EOF > feed.rss
+cat <<EOF > feed.rss.new
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 
@@ -15,10 +15,6 @@ EOF
 
 
 TOTAL=$(ls src | wc -w)
-
-rm index.html
-
-ln -s $TOTAL.html index.html
 
 TOTAL=$(( TOTAL ))
 NUM=$(( TOTAL ))
@@ -33,7 +29,7 @@ echo "
 <link>$ABSURL/$NEWF</link>
 <description>image #$NUM</description>
 </item>
-" >> feed.rss
+" >> feed.rss.new
 
 sed "s/<!-- COMIC -->/<img class='comic' alt='$TITLE' title='$TITLE' src='src\/$fn'\/>/; s/XFSSTITLE/$TITLE/g; s/RANDOM/"$(( ( RANDOM % TOTAL ) + 1 ))"/; s/LAST/$TOTAL/" template/page.html > $NEWF
 
@@ -46,9 +42,11 @@ NUM=$(( NUM - 1 ))
 
 done
 
-cat <<EOF >> feed.rss
+cat <<EOF >> feed.rss.new
 </channel>
 </rss>
 EOF
 
+ln -s $TOTAL.html index.html
+mv feed.rss.new feed.rss
 
